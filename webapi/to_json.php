@@ -41,7 +41,7 @@
 		array_push($meta_artist, $this_artist);
 		
 		//The URL needs to be pulled from a fake origin API
-		$this_dl_curl = curl_init("https://www.mp3sound.cloud/dl.v3.php?id=".$this_id."&t=".urlencode($this_t)."&h=".$this_h."&s=".$this_s."&st=");
+		$this_dl_curl = curl_init("https://www.genmp3.net/dl.v3.php?id=".$this_id."&t=".urlencode($this_t)."&h=".$this_h."&s=".$this_s."&st=");
 		curl_setopt($this_dl_curl, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($this_dl_curl, CURLOPT_REFERER, $dl_url);
 		$headers = [
