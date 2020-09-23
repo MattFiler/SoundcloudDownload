@@ -103,7 +103,7 @@ namespace SoundcloudDownload
                             newFail.reason += "\nReason: " + _e.Message;
                             failedDownloads.Add(newFail);
                         }
-                        progressBar.Value += (50 / metadata["songs"].Count());
+                        progressBar.Value += 50;
                     }
                 }
                 catch (Exception _e)
