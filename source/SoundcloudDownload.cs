@@ -37,14 +37,15 @@ namespace SoundcloudDownload
         private void DownloadFiles()
         {
             progressBar.Value = 0;
-            progressBar.Maximum = 100 * soundcloudURLs.Lines.Count();
+            progressBar.Maximum = 1000 * soundcloudURLs.Lines.Count();
             List<Failure> failedDownloads = new List<Failure>();
 
-            foreach (string url in soundcloudURLs.Lines)
+            for (int i = 0; i < soundcloudURLs.Lines.Count(); i++)
             {
+                progressBar.Value = 1000 * i;
                 try
                 {
-                    JToken metadata = GetMetadata(url);
+                    JToken metadata = GetMetadata(soundcloudURLs.Lines[i]);
                     if (metadata["error"].Value<string>() != "Success")
                     {
                         MessageBox.Show(metadata["error"].Value<string>(), "Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -53,7 +54,6 @@ namespace SoundcloudDownload
                     string outputPath = "output/";
                     if (metadata["is_playlist"].Value<bool>()) outputPath += string.Join("_", metadata["name"].Value<string>().Split(Path.GetInvalidFileNameChars())) + "/";
                     Directory.CreateDirectory(outputPath);
-                    progressBar.Value += 50;
 
                     foreach (JObject song in metadata["songs"])
                     {
@@ -103,7 +103,8 @@ namespace SoundcloudDownload
                             newFail.reason += "\nReason: " + _e.Message;
                             failedDownloads.Add(newFail);
                         }
-                        progressBar.Value += 50;
+                        int toAdd = (int)Math.Round((1000.0f / (double)metadata["songs"].Count()), 0);
+                        if (!(progressBar.Value + toAdd > progressBar.Maximum)) progressBar.Value += toAdd;
                     }
                 }
                 catch (Exception _e)
