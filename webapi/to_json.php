@@ -28,7 +28,8 @@
 		$this_id = trimString($dl_html, "data-id=", "data-s", 1, 2);
 		$this_s = trimString($dl_html, "data-s=", "data-h", 1, 2);
 		$this_h = trimString($dl_html, "data-h=", "data-t", 1, 2);
-		$this_t = trimString($dl_html, "data-t=", "href", 1, 2);
+		$this_t = trimString($dl_html, "data-t=", "data-mtu", 1, 2);
+		$this_mtu = trimString($dl_html, "data-mtu=", "href", 1, 2);
 		
 		$this_meta = trimString($dl_html, '<div class="meta">', "</div>");
 		$this_title = trimString($this_meta, 'title="Download ', '">');
@@ -41,7 +42,7 @@
 		array_push($meta_artist, $this_artist);
 		
 		//The URL needs to be pulled from a fake origin API
-		$this_dl_curl = curl_init("https://www.genmp3.net/dl.v3.php?id=".$this_id."&t=".urlencode($this_t)."&h=".$this_h."&s=".$this_s."&st=");
+		$this_dl_curl = curl_init("https://www.genmp3.net/dl.v3.php?id=".$this_id."&t=".urlencode($this_t)."&h=".$this_h."&s=".$this_s."&mtu=".$this_mtu."&st=");
 		curl_setopt($this_dl_curl, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($this_dl_curl, CURLOPT_REFERER, $dl_url);
 		$headers = [
